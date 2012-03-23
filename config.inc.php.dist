@@ -1,0 +1,26 @@
+<?php
+
+// PostfixAdmin Purge Plugin options
+// ---------------------------------
+// Set the driver. Default (and so far the only existing): "sql".
+$rcmail_config['purge_driver'] = 'sql';
+
+// SQL Driver options
+// ------------------
+// PEAR database DSN for performing the query.
+// Roundcube DB settings are used.
+$rcmail_config['purge_sql_dsn'] = 'pgsql://username:password@host/database';
+
+// The SQL query used to update purge data.
+$rcmail_config['purge_sql_write'] = 'UPDATE mailbox SET purge_trash = %purgetrash, purge_junk = %purgejunk WHERE username = %username';
+
+// The SQL query used to select purge data.
+$rcmail_config['purge_sql_read'] = 'SELECT * FROM mailbox WHERE username = %username';
+
+// The SQL query used to get mailboxes for the php script.
+$rcmail_config['purge_script_query'] = 'SELECT domain, local_part, purge_trash, purge_junk FROM mailbox';
+
+// Path to maildirs.
+$rcmail_config['purge_maildir_path'] = '/web/vmail';
+
+?>

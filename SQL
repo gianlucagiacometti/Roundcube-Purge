@@ -1,0 +1,19 @@
+Add 2 columns to postfix.mailbox table (number of days to keep message in Trash and Junk Folders, 0 means forever):
+
+
+PostgreSQL
+----------
+
+ALTER TABLE mailbox ADD COLUMN purge_trash integer;
+ALTER TABLE mailbox ALTER COLUMN purge_trash SET NOT NULL;
+ALTER TABLE mailbox ALTER COLUMN purge_trash SET DEFAULT 0;
+ALTER TABLE mailbox ADD COLUMN purge_junk integer;
+ALTER TABLE mailbox ALTER COLUMN purge_junk SET NOT NULL;
+ALTER TABLE mailbox ALTER COLUMN purge_junk SET DEFAULT 0;
+
+
+MySQL
+-----
+
+ALTER TABLE mailbox ADD COLUMN purge_trash int(11) NOT NULL DEFAULT 0;
+ALTER TABLE mailbox ADD COLUMN purge_junk int(11) NOT NULL DEFAULT 0;
