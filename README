@@ -43,6 +43,9 @@ appropriate options:
 $rcmail_config['purge_driver'] = 'sql';
     so far only sql is available
 
+$rcmail_config['purge_visible'] = boolean;
+    indicates if users can change purge values in their settings
+
 $rcmail_config['purge_sql_dsn'] = value;
     example value: 'pgsql://username:password@host/database'
     example value: 'mysql://username:password@host/database'
@@ -58,6 +61,10 @@ $rcmail_config['purge_sql_read'] = query;
     placeholder %address must be kept unchanged
     default query: 'SELECT * FROM mailbox WHERE username = %username'
     example query: 'SELECT * FROM mailboxes WHERE username = %username'
+
+$rcmail_config['purge_sql_read_domain'] = query;
+    the query depends upon your postfixadmin database structure
+    default query: 'SELECT purge_trash, purge_junk FROM domain WHERE domain = %domain'
 
 $rcmail_config['purge_script_query'] = query;
     the query depends upon your postfixadmin database structure

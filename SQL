@@ -17,3 +17,33 @@ MySQL
 
 ALTER TABLE mailbox ADD COLUMN purge_trash int(11) NOT NULL DEFAULT 0;
 ALTER TABLE mailbox ADD COLUMN purge_junk int(11) NOT NULL DEFAULT 0;
+
+
+If you want to use domain-wide default values that can be inherited to all users, use these statements instead:
+
+
+PostgreSQL
+----------
+
+ALTER TABLE domain ADD COLUMN purge_trash integer;
+ALTER TABLE domain ALTER COLUMN purge_trash SET NOT NULL;
+ALTER TABLE domain ALTER COLUMN purge_trash SET DEFAULT 0;
+ALTER TABLE domain ADD COLUMN purge_junk integer;
+ALTER TABLE domain ALTER COLUMN purge_junk SET NOT NULL;
+ALTER TABLE domain ALTER COLUMN purge_junk SET DEFAULT 0;
+ALTER TABLE mailbox ADD COLUMN purge_trash integer;
+ALTER TABLE mailbox ALTER COLUMN purge_trash SET NULL;
+ALTER TABLE mailbox ALTER COLUMN purge_trash SET DEFAULT NULL;
+ALTER TABLE mailbox ADD COLUMN purge_junk integer;
+ALTER TABLE mailbox ALTER COLUMN purge_junk SET NULL;
+ALTER TABLE mailbox ALTER COLUMN purge_junk SET DEFAULT NULL;
+
+
+MySQL
+-----
+
+
+ALTER TABLE domain ADD COLUMN purge_trash int(11) NOT NULL DEFAULT 0;
+ALTER TABLE domain ADD COLUMN purge_junk int(11) NOT NULL DEFAULT 0;
+ALTER TABLE mailbox ADD COLUMN purge_trash int(11) NULL DEFAULT NULL;
+ALTER TABLE mailbox ADD COLUMN purge_junk int(11) NULL DEFAULT NULL;
