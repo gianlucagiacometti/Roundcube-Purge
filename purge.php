@@ -34,15 +34,16 @@ class purge extends rcube_plugin {
 
 		$rcmail = rcmail::get_instance();
 		$this->rc = &$rcmail;
-		$this->add_texts('localization/', true);
-
-		$this->rc->output->add_label('purge');
-		$this->register_action('plugin.purge', array($this, 'purge_init'));
-		$this->register_action('plugin.purge-save', array($this, 'purge_save'));
-		$this->include_script('purge.js');
-
 		$this->load_config();
-		$this->require_plugin('jqueryui');
+
+		if ($this->rc->config->get('purge_visible', true) === true) {
+			$this->add_texts('localization/', true);
+			$this->rc->output->add_label('purge');
+			$this->register_action('plugin.purge', array($this, 'purge_init'));
+			$this->register_action('plugin.purge-save', array($this, 'purge_save'));
+			$this->include_script('purge.js');
+			$this->require_plugin('jqueryui');
+			}
 
 		require_once ($this->home . '/lib/rcube_purge.php');
 		$this->obj = new rcube_purge();
@@ -132,6 +133,7 @@ class purge extends rcube_plugin {
 
 		$data = array();
 		$data['username'] = $this->obj->username;
+		$data['domain'] = $this->obj->domain;
 
 		$ret = purge_folder_read($data);
 		switch ($ret) {

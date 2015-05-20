@@ -5,6 +5,9 @@
 // Set the driver. Default (and so far the only existing): "sql".
 $rcmail_config['purge_driver'] = 'sql';
 
+// Show purge tab in user's settings or hide it (so that only administrators may change the values)
+$rcmail_config['purge_visible'] = true;
+
 // SQL Driver options
 // ------------------
 // PEAR database DSN for performing the query.
@@ -17,8 +20,11 @@ $rcmail_config['purge_sql_write'] = 'UPDATE mailbox SET purge_trash = %purgetras
 // The SQL query used to select purge data.
 $rcmail_config['purge_sql_read'] = 'SELECT * FROM mailbox WHERE username = %username';
 
+// The SQL query used to select domain-wide purge data.
+$rcmail_config['purge_sql_read_domain'] = 'SELECT purge_trash, purge_junk FROM domain WHERE domain = %domain';
+
 // The SQL query used to get mailboxes for the php script.
-$rcmail_config['purge_script_query'] = 'SELECT domain, local_part, purge_trash, purge_junk FROM mailbox';
+$rcmail_config['purge_script_query'] = 'SELECT domain, local_part, maildir, purge_trash, purge_junk FROM mailbox';
 
 // Path to maildirs.
 $rcmail_config['purge_maildir_path'] = '/web/vmail';

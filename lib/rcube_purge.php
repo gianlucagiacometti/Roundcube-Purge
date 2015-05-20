@@ -23,6 +23,7 @@
 class rcube_purge {
 
 	public $username = '';
+	public $domain = '';
 	public $purgetrash = 0;
 	public $purgejunk = 0;
 
@@ -32,11 +33,23 @@ class rcube_purge {
 
 	private function init() {
 		$this->username = rcmail::get_instance()->user->get_username();
+		$this->domain = explode('@', $this->username, 2);
+		if (count($this->domain) < 2) {
+			$this->domain = null;
+			}
+		else {
+			$this->domain = $this->domain[1];
+			}
 		}
 
 	// Gets the username.
 	public function get_username() {
 		return $this->username;
+		}
+
+	// Gets the user's domain.
+	public function get_domain() {
+		return $this->domain;
 		}
 
 	// Gets the days-alive for trash.
