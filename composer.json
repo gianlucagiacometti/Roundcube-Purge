@@ -1,5 +1,5 @@
 {
-    "name": "gianlucagiacometti/roundcube-purge",
+    "name": "gianlucagiacometti/purge",
     "type": "roundcube-plugin",
     "description": "Lets you purge junk and trash folders",
     "keywords": ["mail","purge","junk","trash","folders","postfixadmin"],
