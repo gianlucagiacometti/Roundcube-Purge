@@ -29,4 +29,9 @@ $rcmail_config['purge_script_query'] = 'SELECT domain, local_part, maildir, purg
 // Path to maildirs.
 $rcmail_config['purge_maildir_path'] = '/web/vmail';
 
+// Debug options
+// -------------
+// Write to debug file.
+$rcmail_config['purge_debug'] = 1;
+
 ?>

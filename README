@@ -4,21 +4,28 @@
 
 
 
-AUTHOR
+AUTHORS
 
 Gianluca Giacometti (php@gianlucagiacometti.it)
+Philipp Kapfer (https://github.com/Crazyphil)
+
+
+
+CONTRIBUTORS
+
+Bob Hutchinson (https://github.com/bobhutch)
 
 
 
 VERSION
 
-0.7.2
+1.1.1
 
 
 
 RELEASE DATE
 
-22-03-2012
+21-05-2015
 
 
 
@@ -28,7 +35,7 @@ Requirements :
 - jQuery UI.
 
 To install this plugin, copy all files into /plugin/purge folder and
-add it to the plugin array in config/main.inc.php :
+add it to the plugin array in config/config.inc.php :
 
 // List of active plugins (in plugins/ directory)
 $rcmail_config['plugins'] = array('purge');
@@ -85,10 +92,10 @@ Set purgefolders.php script executable
 
 Create a cron job to execute it everyday
 
-  -----------------------------------------------------------------------------------------------------
+  ---------------------------------------------------------------------------------------------------------------
   # At 4:01am every night, purge old messages in Trash and Junk folders.
-  01 04 * * * /path/to/roundcube/plugins/purge/purgefolders.php 2>> /var/log/roundcube/purgefolders.err
-  -----------------------------------------------------------------------------------------------------
+  01 04 * * * root php5 /path/to/roundcube/plugins/purge/purgefolders.php 2>> /var/log/roundcube/purgefolders.err
+  ---------------------------------------------------------------------------------------------------------------
 
 For Debian/Ubuntu systems just run (in Ubuntu prepend 'sudo' to all commands):
 
@@ -98,7 +105,7 @@ For Debian/Ubuntu systems just run (in Ubuntu prepend 'sudo' to all commands):
 
 or
 
-  echo -e "# At 4:01am every night, purge old messages in Trash and Junk folders.\n01 04 * * * /path/to/roundcube/plugins/purge/purgefolders.php 2>> /var/log/roundcube/purgefolders.err" > /etc/cron.d/purge-trash-junk-folders
+  echo -e "# At 4:01am every night, purge old messages in Trash and Junk folders.\n01 04 * * * root /path/to/roundcube/plugins/purge/purgefolders.php 2>> /var/log/roundcube/purgefolders.err" > /etc/cron.d/purge-trash-junk-folders
 
 
 

@@ -1,2 +1,12 @@
 2012-03-22 Gianluca Giacometti <php@gianlucagiacometti.it>
         [RELEASE]: version 0.7.2
+2014-03-13 Philipp Kapfer (https://github.com/Crazyphil)
+        [UPDATE]: version 1.0.0
+        [UPDATE]: added German language
+        [UPDATE]: sql changes for RoundCube 1.0
+2014-07-05 Bob Hutchinson (https://github.com/bobhutch)
+        [UPDATE]: version 1.0.1
+	[UPDATE] patch for RoundCube 1.0.1
+2015-05-21 Gianluca Giacometti <php@gianlucagiacometti.it>
+        [UPDATE]: version 1.1.1
+        [UPDATE]: correct maildir path in purgefolders.php

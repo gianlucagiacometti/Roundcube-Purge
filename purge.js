@@ -2,9 +2,13 @@
 
  +-----------------------------------------------------------------------+
  | PostfixAdmin Purge Plugin for RoundCube                               |
- | Version: 0.7.2                                                        |
- | Author: Gianluca Giacometti <php@gianlucagiacometti.it>               |
- | Copyright (C) 2012 Gianluca Giacometti                                |
+ | Version: 1.1.1                                                        |
+ | Authors:                                                              |
+ |          Gianluca Giacometti <php@gianlucagiacometti.it>              |
+ |          Philipp Kapfer (https://github.com/Crazyphil)                |
+ | Contributors:                                                         |
+ |          Bob Hutchinson (https://github.com/bobhutch)                 |
+ | Copyright (C) 2015 Gianluca Giacometti - Philipp Kapfer               |
  | License: GNU General Public License                                   |
  +-----------------------------------------------------------------------+
 

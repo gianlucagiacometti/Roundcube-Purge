@@ -6,20 +6,26 @@
 
  +-----------------------------------------------------------------------+
  | PostfixAdmin Purge Plugin for RoundCube                               |
- | Version: 0.7.2                                                        |
- | Author: Gianluca Giacometti <php@gianlucagiacometti.it>               |
- | Copyright (C) 2012 Gianluca Giacometti                                |
+ | Version: 1.1.1                                                        |
+ | Authors:                                                              |
+ |          Gianluca Giacometti <php@gianlucagiacometti.it>              |
+ |          Philipp Kapfer (https://github.com/Crazyphil)                |
+ | Contributors:                                                         |
+ |          Bob Hutchinson (https://github.com/bobhutch)                 |
+ | Copyright (C) 2015 Gianluca Giacometti - Philipp Kapfer               |
  | License: GNU General Public License                                   |
  +-----------------------------------------------------------------------+
 
 */
 
 define('INSTALL_PATH', __DIR__ . '/../../');
-require_once INSTALL_PATH . 'program/include/iniset.php';
+require_once INSTALL_PATH . 'program/include/clisetup.php';
 
 $rcmail = rcmail::get_instance();
 $rcmail->plugins->load_plugin('purge', true);
-$rcmail->write_log('purgefolders', 'Purge operation started');
+if ($rcmail->config->get('purge_debug')) {
+	$rcmail->write_log('purgefolders', 'Purge operation started');
+	}
 
 if ($dsn = $rcmail->config->get('purge_sql_dsn')) {
 	if (is_array($dsn) && empty($dsn['new_link'])) {
@@ -37,13 +43,17 @@ else {
 	}
 
 if ($err = $db->is_error()) {
-	$rcmail->write_log('purgefolders', 'Error connecting to database: ' . $err);
+	if ($rcmail->config->get('purge_debug')) {
+		$rcmail->write_log('purgefolders', 'Error connecting to database: ' . $err);
+		}
 	exit($err . "\n");
 	}
 
 $sql_result = $db->query($rcmail->config->get('purge_script_query'));
 if ($err = $db->is_error()) {
-	$rcmail->write_log('purgefolders', 'Error reading mailboxes from database: ' . $err);
+	if ($rcmail->config->get('purge_debug')) {
+		$rcmail->write_log('purgefolders', 'Error reading mailboxes from database: ' . $err);
+		}
 	exit($err . "\n");
 	}
 
@@ -61,7 +71,9 @@ for ( $i = 0 ; $i < count($mailboxes) ; $i++) {
 		$query = str_replace($search, $replace, $rcmail->config->get('purge_sql_read_domain'));
 		$sql_result = $db->query($query);
 		if ($err = $db->is_error()) {
-			$rcmail->write_log('purgefolders', 'Error reading domain quota for ' . $mailboxes[$i]['domain'] . ': ' . $err);
+			if ($rcmail->config->get('purge_debug')) {
+				$rcmail->write_log('purgefolders', 'Error reading domain quota for ' . $mailboxes[$i]['domain'] . ': ' . $err);
+				}
 			exit($err . "\n");
 		    }
 		$sql_arr = $db->fetch_assoc($sql_result);
@@ -78,39 +90,54 @@ for ( $i = 0 ; $i < count($mailboxes) ; $i++) {
 
 	$tcount = 0;
 	$tlast = $purge_trash > 0 ? ($purge_trash == 1 ? " 1 day" : " " . strval($purge_trash) . " days") : "ever";
-	$rcmail->write_log('purgefolders', "User " .  $mailboxes[$i]['local_part'] . "@" . $mailboxes[$i]['domain'] . " keeps messages in Trash folder for" . $tlast);
+	if ($rcmail->config->get('purge_debug')) {
+		$rcmail->write_log('purgefolders', "User " .  $mailboxes[$i]['local_part'] . "@" . $mailboxes[$i]['domain'] . " keeps messages in Trash folder for" . $tlast);
+		}
 	if ($purge_trash > 0) {
-		$trash = $rcmail->config->get('purge_maildir_path') . "/" . $mailboxes[$i]['maildir'] . "/.Trash/cur";
+		$trash = $rcmail->config->get('purge_maildir_path') . "/" . $mailboxes[$i]['domain'] . "/" . $mailboxes[$i]['local_part'] . "/Maildir/.Trash/cur";
 		$files = array_diff(scandir($trash), array('..', '.'));
 		if (!empty($files)) {
 			foreach ($files as $filename) {
 				if ((time() - filemtime($trash . "/" . $filename)) > ($purge_trash * 60 * 60 * 24)) {
-					$rcmail->write_log('purgefolders', "Purging file " . $filename . " (dated " . date('Y-m-d H:i:s', filemtime($trash . "/" . $filename)) . ") from Trash folder of user " .  $mailboxes[$i]['local_part'] . "@" . $mailboxes[$i]['domain']);
+					if ($rcmail->config->get('purge_debug')) {
+						$rcmail->write_log('purgefolders', "Purging file " . $filename . " (dated " . date('Y-m-d H:i:s', filemtime($trash . "/" . $filename)) . ") from Trash folder of user " .  $mailboxes[$i]['local_part'] . "@" . $mailboxes[$i]['domain']);
+						}
 					unlink($trash . "/" . $filename);
 					$tcount++;
 					}
 				}
 			}
 		}
-	$rcmail->write_log('purgefolders', $tcount . " messages purged from Trash folder of user " .  $mailboxes[$i]['local_part'] . "@" . $mailboxes[$i]['domain']);
+	if ($rcmail->config->get('purge_debug')) {
+		$rcmail->write_log('purgefolders', $tcount . " messages purged from Trash folder of user " .  $mailboxes[$i]['local_part'] . "@" . $mailboxes[$i]['domain']);
+		}
 	$jcount = 0;
 	$jlast = $purge_junk > 0 ? ($purge_junk == 1 ? " 1 day" : " " . strval($purge_junk) . " days") : "ever";
-	$rcmail->write_log('purgefolders', "User " .  $mailboxes[$i]['local_part'] . "@" . $mailboxes[$i]['domain'] . " keeps messages in Junk folder for" . $jlast);
+	if ($rcmail->config->get('purge_debug')) {
+		$rcmail->write_log('purgefolders', "User " .  $mailboxes[$i]['local_part'] . "@" . $mailboxes[$i]['domain'] . " keeps messages in Junk folder for" . $jlast);
+		}
 	if (intval($mailboxes[$i]['purge_junk']) > 0) {
-		$junk = $rcmail->config->get('purge_maildir_path') . "/" . $mailboxes[$i]['maildir'] . "/.Junk/cur";
+		$junk = $rcmail->config->get('purge_maildir_path') . "/" . $mailboxes[$i]['domain'] . "/" . $mailboxes[$i]['local_part'] . "/Maildir/.Junk/cur";
 		$files = array_diff(scandir($junk), array('..', '.'));
 		if (!empty($files)) {
 			foreach ($files as $filename) {
 				if ((time() - filemtime($junk . "/" . $filename)) > ($purge_junk * 60 * 60 * 24)) {
-					$rcmail->write_log('purgefolders', "Purging file " . $filename . " (dated " . date('Y-m-d H:i:s', filemtime($trash . "/" . $filename)) . ") from Junk folder of user " .  $mailboxes[$i]['local_part'] . "@" . $mailboxes[$i]['domain']);
+					if ($rcmail->config->get('purge_debug')) {
+						$rcmail->write_log('purgefolders', "Purging file " . $filename . " (dated " . date('Y-m-d H:i:s', filemtime($trash . "/" . $filename)) . ") from Junk folder of user " .  $mailboxes[$i]['local_part'] . "@" . $mailboxes[$i]['domain']);
+						}
 					unlink($junk . "/" . $filename);
 					$jcount++;
 					}
 				}
 			}
 		}
-	$rcmail->write_log('purgefolders', $jcount . " messages purged from Junk folder of user " .  $mailboxes[$i]['local_part'] . "@" . $mailboxes[$i]['domain']);
+	if ($rcmail->config->get('purge_debug')) {
+		$rcmail->write_log('purgefolders', $jcount . " messages purged from Junk folder of user " .  $mailboxes[$i]['local_part'] . "@" . $mailboxes[$i]['domain']);
+		}
 	}
 
-$rcmail->write_log('purgefolders', "Purge operation ended");
+if ($rcmail->config->get('purge_debug')) {
+	$rcmail->write_log('purgefolders', "Purge operation ended");
+	}
+
 ?>

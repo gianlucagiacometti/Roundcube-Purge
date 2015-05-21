@@ -4,12 +4,8 @@ Add 2 columns to postfix.mailbox table (number of days to keep message in Trash 
 PostgreSQL
 ----------
 
-ALTER TABLE mailbox ADD COLUMN purge_trash integer;
-ALTER TABLE mailbox ALTER COLUMN purge_trash SET NOT NULL;
-ALTER TABLE mailbox ALTER COLUMN purge_trash SET DEFAULT 0;
-ALTER TABLE mailbox ADD COLUMN purge_junk integer;
-ALTER TABLE mailbox ALTER COLUMN purge_junk SET NOT NULL;
-ALTER TABLE mailbox ALTER COLUMN purge_junk SET DEFAULT 0;
+ALTER TABLE mailbox ADD COLUMN purge_trash integer NOT NULL DEFAULT 0;
+ALTER TABLE mailbox ADD COLUMN purge_junk integer NOT NULL DEFAULT 0;
 
 
 MySQL
@@ -25,23 +21,14 @@ If you want to use domain-wide default values that can be inherited to all users
 PostgreSQL
 ----------
 
-ALTER TABLE domain ADD COLUMN purge_trash integer;
-ALTER TABLE domain ALTER COLUMN purge_trash SET NOT NULL;
-ALTER TABLE domain ALTER COLUMN purge_trash SET DEFAULT 0;
-ALTER TABLE domain ADD COLUMN purge_junk integer;
-ALTER TABLE domain ALTER COLUMN purge_junk SET NOT NULL;
-ALTER TABLE domain ALTER COLUMN purge_junk SET DEFAULT 0;
-ALTER TABLE mailbox ADD COLUMN purge_trash integer;
-ALTER TABLE mailbox ALTER COLUMN purge_trash SET NULL;
-ALTER TABLE mailbox ALTER COLUMN purge_trash SET DEFAULT NULL;
-ALTER TABLE mailbox ADD COLUMN purge_junk integer;
-ALTER TABLE mailbox ALTER COLUMN purge_junk SET NULL;
-ALTER TABLE mailbox ALTER COLUMN purge_junk SET DEFAULT NULL;
+ALTER TABLE domain ADD COLUMN purge_trash integer NOT NULL DEFAULT 0;
+ALTER TABLE domain ADD COLUMN purge_junk integer NOT NULL DEFAULT 0;
+ALTER TABLE mailbox ADD COLUMN purge_trash integer NULL DEFAULT NULL;
+ALTER TABLE mailbox ADD COLUMN purge_junk integer NULL DEFAULT NULL;
 
 
 MySQL
 -----
-
 
 ALTER TABLE domain ADD COLUMN purge_trash int(11) NOT NULL DEFAULT 0;
 ALTER TABLE domain ADD COLUMN purge_junk int(11) NOT NULL DEFAULT 0;
