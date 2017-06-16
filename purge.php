@@ -65,7 +65,7 @@ class purge extends rcube_plugin {
 		$this->write_data();
 		$this->register_handler('plugin.body', array($this, 'purge_form'));
 		$this->rc->output->set_pagetitle($this->gettext('purge'));
-		rcmail_overwrite_action('plugin.purge');
+		rcmail::get_instance()->overwrite_action('plugin.purge');
 		$this->rc->output->send('plugin');
 		}
 
@@ -75,40 +75,40 @@ class purge extends rcube_plugin {
 
 		$field_id = 'purgetrash';
 		$select_purgetrash = new html_select(array('name' => "_purgetrash[]", 'onchange' => JS_OBJECT_NAME . '.purge_purgetrash_select(this)'));
-		$select_purgetrash->add(Q($this->gettext('purgealways')), 0);
-		$select_purgetrash->add(Q("1 " . $this->gettext('purgeday')), 1);
-		$select_purgetrash->add(Q("3 " . $this->gettext('purgedays')), 3);
-		$select_purgetrash->add(Q("7 " . $this->gettext('purgedays')), 7);
-		$select_purgetrash->add(Q("15 " . $this->gettext('purgedays')), 15);
-		$select_purgetrash->add(Q("30 " . $this->gettext('purgedays')), 30);
-		$select_purgetrash->add(Q("45 " . $this->gettext('purgedays')), 45);
-		$select_purgetrash->add(Q("60 " . $this->gettext('purgedays')), 60);
-		$select_purgetrash->add(Q("90 " . $this->gettext('purgedays')), 90);
-		$select_purgetrash->add(Q("120 " . $this->gettext('purgedays')), 120);
-		$select_purgetrash->add(Q("150 " . $this->gettext('purgedays')), 150);
-		$select_purgetrash->add(Q("180 " . $this->gettext('purgedays')), 180);
-		$select_purgetrash->add(Q("270 " . $this->gettext('purgedays')), 270);
-		$select_purgetrash->add(Q("360 " . $this->gettext('purgedays')), 360);
-		$table->add('title', html::label($field_id, Q($this->gettext('purgetrashfolder'))));
+		$select_purgetrash->add(rcmail::Q($this->gettext('purgealways')), 0);
+		$select_purgetrash->add(rcmail::Q("1 " . $this->gettext('purgeday')), 1);
+		$select_purgetrash->add(rcmail::Q("3 " . $this->gettext('purgedays')), 3);
+		$select_purgetrash->add(rcmail::Q("7 " . $this->gettext('purgedays')), 7);
+		$select_purgetrash->add(rcmail::Q("15 " . $this->gettext('purgedays')), 15);
+		$select_purgetrash->add(rcmail::Q("30 " . $this->gettext('purgedays')), 30);
+		$select_purgetrash->add(rcmail::Q("45 " . $this->gettext('purgedays')), 45);
+		$select_purgetrash->add(rcmail::Q("60 " . $this->gettext('purgedays')), 60);
+		$select_purgetrash->add(rcmail::Q("90 " . $this->gettext('purgedays')), 90);
+		$select_purgetrash->add(rcmail::Q("120 " . $this->gettext('purgedays')), 120);
+		$select_purgetrash->add(rcmail::Q("150 " . $this->gettext('purgedays')), 150);
+		$select_purgetrash->add(rcmail::Q("180 " . $this->gettext('purgedays')), 180);
+		$select_purgetrash->add(rcmail::Q("270 " . $this->gettext('purgedays')), 270);
+		$select_purgetrash->add(rcmail::Q("360 " . $this->gettext('purgedays')), 360);
+		$table->add('title', html::label($field_id, rcmail::Q($this->gettext('purgetrashfolder'))));
 		$table->add(null, $select_purgetrash->show(intval($this->obj->get_purgetrash())));
 
 		$field_id = 'purgejunk';
 		$select_purgejunk = new html_select(array('name' => "_purgejunk[]", 'onchange' => JS_OBJECT_NAME . '.purge_purgejunk_select(this)'));
-		$select_purgejunk->add(Q($this->gettext('purgealways')), 0);
-		$select_purgejunk->add(Q("1 " . $this->gettext('purgeday')), 1);
-		$select_purgejunk->add(Q("3 " . $this->gettext('purgedays')), 3);
-		$select_purgejunk->add(Q("7 " . $this->gettext('purgedays')), 7);
-		$select_purgejunk->add(Q("15 " . $this->gettext('purgedays')), 15);
-		$select_purgejunk->add(Q("30 " . $this->gettext('purgedays')), 30);
-		$select_purgejunk->add(Q("45 " . $this->gettext('purgedays')), 45);
-		$select_purgejunk->add(Q("60 " . $this->gettext('purgedays')), 60);
-		$select_purgejunk->add(Q("90 " . $this->gettext('purgedays')), 90);
-		$select_purgejunk->add(Q("120 " . $this->gettext('purgedays')), 120);
-		$select_purgejunk->add(Q("150 " . $this->gettext('purgedays')), 150);
-		$select_purgejunk->add(Q("180 " . $this->gettext('purgedays')), 180);
-		$select_purgejunk->add(Q("270 " . $this->gettext('purgedays')), 270);
-		$select_purgejunk->add(Q("360 " . $this->gettext('purgedays')), 360);
-		$table->add('title', html::label($field_id, Q($this->gettext('purgejunkfolder'))));
+		$select_purgejunk->add(rcmail::Q($this->gettext('purgealways')), 0);
+		$select_purgejunk->add(rcmail::Q("1 " . $this->gettext('purgeday')), 1);
+		$select_purgejunk->add(rcmail::Q("3 " . $this->gettext('purgedays')), 3);
+		$select_purgejunk->add(rcmail::Q("7 " . $this->gettext('purgedays')), 7);
+		$select_purgejunk->add(rcmail::Q("15 " . $this->gettext('purgedays')), 15);
+		$select_purgejunk->add(rcmail::Q("30 " . $this->gettext('purgedays')), 30);
+		$select_purgejunk->add(rcmail::Q("45 " . $this->gettext('purgedays')), 45);
+		$select_purgejunk->add(rcmail::Q("60 " . $this->gettext('purgedays')), 60);
+		$select_purgejunk->add(rcmail::Q("90 " . $this->gettext('purgedays')), 90);
+		$select_purgejunk->add(rcmail::Q("120 " . $this->gettext('purgedays')), 120);
+		$select_purgejunk->add(rcmail::Q("150 " . $this->gettext('purgedays')), 150);
+		$select_purgejunk->add(rcmail::Q("180 " . $this->gettext('purgedays')), 180);
+		$select_purgejunk->add(rcmail::Q("270 " . $this->gettext('purgedays')), 270);
+		$select_purgejunk->add(rcmail::Q("360 " . $this->gettext('purgedays')), 360);
+		$table->add('title', html::label($field_id, rcmail::Q($this->gettext('purgejunkfolder'))));
 		$table->add(null, $select_purgejunk->show(intval($this->obj->get_purgejunk())));
 
 		$out = html::div(array('class' => "box"), html::div(array('id' => "purge-title", 'class' => 'boxtitle'), $this->gettext('purge')) . html::div(array('class' => "boxcontent"), $table->show() . html::p(null, $this->rc->output->button(array('command' => 'plugin.purge-save', 'type' => 'input', 'class' => 'button mainaction', 'label' => 'save')))));
@@ -163,8 +163,8 @@ class purge extends rcube_plugin {
 
 	public function write_data() {
 
-		$purgetrash = get_input_value('_purgetrash', RCUBE_INPUT_POST);
-		$purgejunk = get_input_value('_purgejunk', RCUBE_INPUT_POST);
+		$purgetrash = rcube_utils::get_input_value('_purgetrash', rcube_utils::INPUT_POST);
+		$purgejunk = rcube_utils::get_input_value('_purgejunk', rcube_utils::INPUT_POST);
 
 		if (($purgetrash[0] < 0) || ($purgetrash[0] > 365)) { $purgetrash[0] = 0; }
 		if (($purgejunk[0] < 0) || ($purgejunk[0] > 365)) { $purgejunk[0] = 0; }
