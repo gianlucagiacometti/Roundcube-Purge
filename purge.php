@@ -124,14 +124,14 @@ class purge extends rcube_plugin {
 		$driver = $this->home . '/lib/drivers/' . $this->rc->config->get('purge_driver', 'sql').'.php';
 
 		if (!is_readable($driver)) {
-			raise_error(array('code' => 600, 'type' => 'php', 'file' => __FILE__, 'message' => "purge plugin: unable to open driver file $driver"), true, false);
+			rcube::raise_error(array('code' => 600, 'type' => 'php', 'file' => __FILE__, 'message' => "purge plugin: unable to open driver file $driver"), true, false);
 			return $this->gettext('purgeinternalerror');
 			}
 
 		require_once($driver);
 
 		if (!function_exists('purge_folder_read')) {
-			raise_error(array('code' => 600, 'type' => 'php', 'file' => __FILE__, 'message' => "purge plugin: function purge_folder_read not found in driver $driver"), true, false);
+			rcube::raise_error(array('code' => 600, 'type' => 'php', 'file' => __FILE__, 'message' => "purge plugin: function purge_folder_read not found in driver $driver"), true, false);
 			return $this->gettext('purgeinternalerror');
 			}
 
@@ -175,14 +175,14 @@ class purge extends rcube_plugin {
 		$driver = $this->home . '/lib/drivers/' . $this->rc->config->get('purge_driver', 'sql').'.php';
 
 		if (!is_readable($driver)) {
-			raise_error(array('code' => 600, 'type' => 'php', 'file' => __FILE__, 'message' => "purge plugin: unable to open driver file $driver"), true, false);
+			rcube::raise_error(array('code' => 600, 'type' => 'php', 'file' => __FILE__, 'message' => "purge plugin: unable to open driver file $driver"), true, false);
 			return $this->gettext('purgeinternalerror');
 			}
 
 		require_once($driver);
 
 		if (!function_exists('purge_folder_write')) {
-			raise_error(array('code' => 600, 'type' => 'php', 'file' => __FILE__, 'message' => "purge plugin: function purge_folder_write not found in driver $driver"), true, false);
+			rcube::raise_error(array('code' => 600, 'type' => 'php', 'file' => __FILE__, 'message' => "purge plugin: function purge_folder_write not found in driver $driver"), true, false);
 			return $this->gettext('purgeinternalerror');
 			}
 
