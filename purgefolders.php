@@ -98,7 +98,7 @@ for ( $i = 0 ; $i < count($mailboxes) ; $i++) {
 		$files = array_diff(scandir($trash), array('..', '.'));
 		if (!empty($files)) {
 			foreach ($files as $filename) {
-				if ((time() - filemtime($trash . "/" . $filename)) > ($purge_trash * 60 * 60 * 24)) {
+				if (file_exists($trash . "/" . $filename) && ((time() - filemtime($trash . "/" . $filename)) > ($purge_trash * 60 * 60 * 24))) {
 					if ($rcmail->config->get('purge_debug')) {
 						$rcmail->write_log('purgefolders', "Purging file " . $filename . " (dated " . date('Y-m-d H:i:s', filemtime($trash . "/" . $filename)) . ") from Trash folder of user " .  $mailboxes[$i]['local_part'] . "@" . $mailboxes[$i]['domain']);
 						}
@@ -121,7 +121,7 @@ for ( $i = 0 ; $i < count($mailboxes) ; $i++) {
 		$files = array_diff(scandir($junk), array('..', '.'));
 		if (!empty($files)) {
 			foreach ($files as $filename) {
-				if ((time() - filemtime($junk . "/" . $filename)) > ($purge_junk * 60 * 60 * 24)) {
+				if (file_exists($junk . "/" . $filename) && ((time() - filemtime($junk . "/" . $filename)) > ($purge_junk * 60 * 60 * 24))) {
 					if ($rcmail->config->get('purge_debug')) {
 						$rcmail->write_log('purgefolders', "Purging file " . $filename . " (dated " . date('Y-m-d H:i:s', filemtime($trash . "/" . $filename)) . ") from Junk folder of user " .  $mailboxes[$i]['local_part'] . "@" . $mailboxes[$i]['domain']);
 						}
