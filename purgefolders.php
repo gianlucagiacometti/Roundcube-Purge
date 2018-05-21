@@ -123,7 +123,7 @@ for ( $i = 0 ; $i < count($mailboxes) ; $i++) {
 			foreach ($files as $filename) {
 				if (file_exists($junk . "/" . $filename) && ((time() - filemtime($junk . "/" . $filename)) > ($purge_junk * 60 * 60 * 24))) {
 					if ($rcmail->config->get('purge_debug')) {
-						$rcmail->write_log('purgefolders', "Purging file " . $filename . " (dated " . date('Y-m-d H:i:s', filemtime($trash . "/" . $filename)) . ") from Junk folder of user " .  $mailboxes[$i]['local_part'] . "@" . $mailboxes[$i]['domain']);
+						$rcmail->write_log('purgefolders', "Purging file " . $filename . " (dated " . date('Y-m-d H:i:s', filemtime($junk . "/" . $filename)) . ") from Junk folder of user " .  $mailboxes[$i]['local_part'] . "@" . $mailboxes[$i]['domain']);
 						}
 					unlink($junk . "/" . $filename);
 					$jcount++;
